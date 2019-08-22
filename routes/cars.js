@@ -71,5 +71,23 @@ router.put('/:id', (req, res) => {
 })
 
 
+// DELETE
+router.delete('/:id', (req, res) => {
+  const { id } = req.params
+
+  // DELETE FROM Posts WHERE id = id
+  db('cars').where({ id }).del()
+  .then(count => {
+    if(count) {
+      res.json({ deleted: count })
+    } else {
+      res.status(404).json({ message: 'invalid car id' })
+    }
+  })
+  .catch(error => {
+    res.status(500).json({ message: 'Failed to delete car' })
+  })
+})
+
 
 module.exports = router
